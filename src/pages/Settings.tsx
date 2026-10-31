@@ -5,12 +5,14 @@ import { callFunction, supabase } from "../lib/supabase";
 import { isValidWhatsApp, normaliseSaNumber } from "../lib/types";
 import { Alert, PageTitle, Spinner } from "../components/ui";
 import { Icon } from "../components/Icon";
+import { useIsAdmin } from "../lib/admin";
 
 export function Settings() {
   const { profile, refreshProfile, signOut } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const emailResult = params.get("email");
+  const isAdmin = useIsAdmin();
 
   const [fullName, setFullName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -155,6 +157,13 @@ export function Settings() {
           <Icon name="chevronRight" className="h-5 w-5 text-ink-faint" />
         </Link>
       </section>
+
+      {isAdmin && (
+        <Link to="/admin" className="panel flex items-center justify-between px-5 py-4 transition hover:bg-white/70">
+          <span className="text-[15px] font-medium text-ink">Admin portal</span>
+          <Icon name="chevronRight" className="h-5 w-5 text-ink-faint" />
+        </Link>
+      )}
 
       <section className="panel">
         <button

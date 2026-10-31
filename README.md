@@ -55,6 +55,31 @@ The daily chain is: `adzuna-sync` -> `embed-jobs` -> `match-all-users` -> `send-
    ```
    Check `ingest_runs` and `select count(*), count(embedding) from jobs;`.
 
+## Admin portal
+
+`/admin` (sign in at `/admin/login`): overview numbers and daily charts, users, Adzuna sync runs and emails, AI usage, and government circulars (upload, progress, publish, retry, delete, and the on/off switch). Admin reads go through `admin_*` SQL functions that check `is_admin()`; actions go through the `admin` Edge Function. Match scores are never shown, even to admins.
+
+Make someone an admin in the SQL editor:
+
+```sql
+insert into public.admins (user_id) select id from auth.users where email = 'someone@example.com';
+```
+
+## Government vacancies (DPSA circular)
+
+Browse-only section built from the weekly Public Service Vacancy Circular (never matched to users).
+
+1. Upload the PDF to the private `circulars` bucket, e.g. `2026/39.pdf`.
+2. Start ingestion (it reads the index, then the annexures in 6-page chunks, and hands off to itself until done):
+   ```bash
+   curl -X POST "https://YOUR_PROJECT.supabase.co/functions/v1/ingest-gov-circular" \
+     -H "x-cron-secret: $CRON_SECRET" -H "Content-Type: application/json" -d '{"storage_path":"2026/39.pdf"}'
+   ```
+   Add `"replace": true` to reload a circular. To re-read specific chunks: `{"circular_id": 2, "rerun_pages": [145, 151]}`.
+3. `gov_circulars.missing_post_numbers` lists post numbers that could not be found after a targeted retry; check them against the PDF (gaps in the DPSA numbering are normal).
+
+The section is shown while `app_settings.gov_vacancies_enabled` is `true` (the admin portal will switch it).
+
 ## Deploy (Netlify)
 
 Connect the GitHub repo. `netlify.toml` sets the build and the SPA redirect. Set `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` and optionally `VITE_TURNSTILE_SITE_KEY` in Netlify. Then set `SITE_URL` in the function secrets to the Netlify URL.

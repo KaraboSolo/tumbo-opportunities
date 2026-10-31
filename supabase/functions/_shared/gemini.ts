@@ -21,6 +21,7 @@ interface GenerateOptions<T> {
   schema: Record<string, unknown>;
   validate: (value: unknown) => value is T;
   temperature?: number;
+  maxOutputTokens?: number;
   userId?: string | null;
 }
 
@@ -53,6 +54,7 @@ export async function generateJson<T>(opts: GenerateOptions<T>): Promise<T> {
     contents: [{ role: "user", parts: opts.parts }],
     generationConfig: {
       temperature: opts.temperature ?? 0.1,
+      ...(opts.maxOutputTokens ? { maxOutputTokens: opts.maxOutputTokens } : {}),
       responseMimeType: "application/json",
       responseSchema: opts.schema,
       ...(thinkingConfig() ? { thinkingConfig: thinkingConfig() } : {}),

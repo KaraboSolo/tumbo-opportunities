@@ -13,6 +13,15 @@ const paths = {
   clock: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2",
   close: "M6 6l12 12M18 6L6 18",
   check: "M5 12.5l4.5 4.5L19 7.5",
+  building: "M3 21h18M5 21V10M19 21V10M9 21v-7M15 21v-7M3 10l9-6 9 6",
+  calendar: "M5 6h14v14H5zM5 10h14M9 4v4M15 4v4",
+  document: "M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6",
+  mail: "M4 6h16v12H4zM4 7l8 6 8-6",
+  phone: "M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 6a2 2 0 0 1 2-2z",
+  copy: "M9 9h11v11H9zM5 15V4h11",
+  sliders: "M4 7h10M18 7h2M4 17h2M10 17h10M16 4v6M8 14v6",
+  chevronLeft: "M15 6l-6 6 6 6",
+  users: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20a6 6 0 0 1 12 0M16 4.5a3.5 3.5 0 0 1 0 6.5M18 14.5a6 6 0 0 1 3 5.5",
 };
 
 export type IconName = keyof typeof paths;

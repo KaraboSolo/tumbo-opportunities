@@ -1,11 +1,13 @@
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../lib/auth";
+import { useSetting } from "../lib/settings";
 import { Icon, type IconName } from "./Icon";
 
-const TABS: { to: string; label: string; icon: IconName }[] = [
-  { to: "/matches", label: "My matches", icon: "sparkles" },
-  { to: "/explore", label: "Explore", icon: "search" },
-  { to: "/settings", label: "Settings", icon: "gear" },
+const ALL_TABS: { to: string; label: string; icon: IconName; section: boolean }[] = [
+  { to: "/matches", label: "My matches", icon: "sparkles", section: true },
+  { to: "/explore", label: "Explore", icon: "search", section: true },
+  { to: "/government", label: "Government", icon: "building", section: true },
+  { to: "/settings", label: "Settings", icon: "gear", section: false },
 ];
 
 export function Layout() {
@@ -13,6 +15,8 @@ export function Layout() {
   const { pathname } = useLocation();
   const onboarded = profile?.onboarding_status === "matched";
   const showTabs = !!session && onboarded;
+  const govEnabled = useSetting("gov_vacancies_enabled");
+  const TABS = ALL_TABS.filter((t) => t.to !== "/government" || govEnabled);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -25,7 +29,7 @@ export function Layout() {
 
           {showTabs && (
             <nav className="segmented hidden sm:inline-flex" aria-label="Sections">
-              {TABS.slice(0, 2).map((t) => (
+              {TABS.filter((t) => t.section).map((t) => (
                 <NavLink key={t.to} to={t.to} className={({ isActive }) => (isActive ? "active" : "hover:text-ink")}>
                   {t.label}
                 </NavLink>
@@ -71,7 +75,7 @@ export function Layout() {
           className="glass fixed inset-x-0 bottom-0 z-30 border-t border-hairline pb-[env(safe-area-inset-bottom)] sm:hidden"
           aria-label="Sections"
         >
-          <div className="mx-auto grid max-w-md grid-cols-3">
+          <div className={`mx-auto grid max-w-md ${TABS.length === 4 ? "grid-cols-4" : "grid-cols-3"}`}>
             {TABS.map((t) => (
               <NavLink
                 key={t.to}

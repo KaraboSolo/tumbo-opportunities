@@ -410,3 +410,6 @@ verify_jwt = false
 
 [functions.unsubscribe]
 verify_jwt = false
+
+[functions.ingest-gov-circular]
+verify_jwt = false
