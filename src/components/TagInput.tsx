@@ -31,8 +31,8 @@ export function TagInput({ id, label, values, onChange, placeholder, hint }: Pro
   return (
     <div>
       <label htmlFor={id} className="label">{label}</label>
-      {hint && <p className="-mt-0.5 mb-1.5 text-xs text-gray-500">{hint}</p>}
-      <div className="flex flex-wrap gap-1.5 rounded-lg border border-gray-300 p-2 focus-within:border-brand focus-within:ring-1 focus-within:ring-brand">
+      {hint && <p className="-mt-0.5 mb-1.5 text-xs text-ink-faint">{hint}</p>}
+      <div className="flex flex-wrap gap-1.5 rounded-xl border border-hairline bg-white p-2 transition focus-within:border-brand/40 focus-within:ring-4 focus-within:ring-brand/10">
         {values.map((v) => (
           <span key={v} className="inline-flex items-center gap-1 rounded-full bg-brand-light px-2.5 py-1 text-sm text-brand-dark">
             {v}

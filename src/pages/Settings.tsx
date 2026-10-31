@@ -4,6 +4,7 @@ import { useAuth } from "../lib/auth";
 import { callFunction, supabase } from "../lib/supabase";
 import { isValidWhatsApp, normaliseSaNumber } from "../lib/types";
 import { Alert, PageTitle, Spinner } from "../components/ui";
+import { Icon } from "../components/Icon";
 
 export function Settings() {
   const { profile, refreshProfile, signOut } = useAuth();
@@ -95,8 +96,10 @@ export function Settings() {
       {emailResult === "confirmed" && <Alert kind="success">Thanks, your email is confirmed.</Alert>}
       {emailResult === "invalid" && <Alert>That confirmation link has expired or was already used.</Alert>}
 
-      <form onSubmit={save} className="space-y-4">
-        <h2 className="text-lg font-semibold">Contact details</h2>
+      <form onSubmit={save} className="space-y-8">
+        <section>
+        <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wider text-ink-faint">Contact details</h2>
+        <div className="card space-y-4">
         <div>
           <label htmlFor="name" className="label">Full name</label>
           <input id="name" className="input" value={fullName} onChange={(e) => setFullName(e.target.value)} />
@@ -106,7 +109,7 @@ export function Settings() {
           <input id="contact" type="email" className="input" value={contactEmail}
             onChange={(e) => setContactEmail(e.target.value)} />
           {profile.contact_email && (
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-ink-faint">
               {profile.contact_email_verified_at ? (
                 "Confirmed."
               ) : (
@@ -123,37 +126,52 @@ export function Settings() {
           <input id="wa" type="tel" inputMode="tel" className="input" placeholder="+27 82 123 4567" value={whatsapp}
             onChange={(e) => setWhatsapp(e.target.value)} />
         </div>
+        </div>
+        </section>
 
-        <h2 className="pt-2 text-lg font-semibold">Notifications</h2>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="h-4 w-4 accent-brand" checked={notifyEmail}
-            onChange={(e) => setNotifyEmail(e.target.checked)} />
-          Email me new matches
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="h-4 w-4 accent-brand" checked={notifyWhatsapp} disabled={!whatsapp.trim()}
-            onChange={(e) => setNotifyWhatsapp(e.target.checked)} />
-          WhatsApp me new matches <span className="text-gray-500">(coming soon)</span>
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="h-4 w-4 accent-brand" checked={paused}
-            onChange={(e) => setPaused(e.target.checked)} />
-          Pause all notifications
-        </label>
+        <section>
+          <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wider text-ink-faint">Notifications</h2>
+          <div className="panel divide-y divide-hairline">
+            <Toggle label="Email me new matches" checked={notifyEmail} onChange={setNotifyEmail} />
+            <Toggle label="WhatsApp me new matches" hint="Coming soon" checked={notifyWhatsapp}
+              disabled={!whatsapp.trim()} onChange={setNotifyWhatsapp} />
+            <Toggle label="Pause all notifications" checked={paused} onChange={setPaused} />
+          </div>
+        </section>
 
         {message && <Alert kind={message.kind}>{message.text}</Alert>}
-        <button type="submit" className="btn-primary" disabled={busy}>{busy ? "Saving..." : "Save changes"}</button>
+        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={busy}>
+          {busy ? "Saving..." : "Save changes"}
+        </button>
       </form>
 
-      <section className="space-y-2">
-        <h2 className="text-lg font-semibold">Your CV and preferences</h2>
-        <p className="text-sm text-gray-600">Upload a newer CV or change what you're looking for.</p>
-        <Link to="/onboarding?restart=1" className="btn-secondary">Update my CV and preferences</Link>
+      <section>
+        <h2 className="mb-2 px-1 text-[13px] font-semibold uppercase tracking-wider text-ink-faint">Your CV and preferences</h2>
+        <Link to="/onboarding?restart=1" className="panel flex items-center justify-between px-5 py-4 transition hover:bg-white/70">
+          <span>
+            <span className="block text-[15px] font-medium text-ink">Update my CV and preferences</span>
+            <span className="block text-sm text-ink-soft">Upload a newer CV or change what you're looking for.</span>
+          </span>
+          <Icon name="chevronRight" className="h-5 w-5 text-ink-faint" />
+        </Link>
       </section>
 
-      <section className="space-y-2 rounded-xl border border-red-200 p-4">
-        <h2 className="text-lg font-semibold text-red-800">Delete my account</h2>
-        <p className="text-sm text-gray-600">
+      <section className="panel">
+        <button
+          type="button"
+          className="w-full px-5 py-4 text-left text-[15px] font-medium text-brand transition hover:bg-black/[0.02]"
+          onClick={async () => {
+            await signOut();
+            navigate("/", { replace: true });
+          }}
+        >
+          Sign out
+        </button>
+      </section>
+
+      <section className="space-y-2 rounded-3xl bg-red-50/60 p-5">
+        <h2 className="text-[17px] font-semibold text-red-800">Delete my account</h2>
+        <p className="text-sm text-ink-soft">
           This permanently deletes your account, CV, profile and matches. It can't be undone.
         </p>
         {confirmDelete ? (
@@ -165,12 +183,36 @@ export function Settings() {
             <button type="button" className="btn-secondary" onClick={() => setConfirmDelete(false)}>Cancel</button>
           </div>
         ) : (
-          <button type="button" className="btn border border-red-300 text-red-700 hover:bg-red-50"
+          <button type="button" className="btn bg-white text-red-700 shadow-sm hover:bg-red-50"
             onClick={() => setConfirmDelete(true)}>
             Delete my account and data
           </button>
         )}
       </section>
     </div>
+  );
+}
+
+/** iOS-style switch row. */
+function Toggle({ label, hint, checked, disabled, onChange }: {
+  label: string;
+  hint?: string;
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (value: boolean) => void;
+}) {
+  return (
+    <label className={`flex items-center justify-between gap-4 px-5 py-3.5 ${disabled ? "opacity-50" : "cursor-pointer"}`}>
+      <span className="text-[15px] text-ink">
+        {label}
+        {hint && <span className="ml-2 text-xs text-ink-faint">{hint}</span>}
+      </span>
+      <span className="relative inline-flex shrink-0">
+        <input type="checkbox" role="switch" className="peer sr-only" checked={checked} disabled={disabled}
+          onChange={(e) => onChange(e.target.checked)} />
+        <span className="h-[31px] w-[51px] rounded-full bg-black/[0.12] transition peer-checked:bg-[#34c759] peer-focus-visible:ring-4 peer-focus-visible:ring-brand/25" />
+        <span className="absolute left-[2px] top-[2px] h-[27px] w-[27px] rounded-full bg-white shadow transition peer-checked:translate-x-5" />
+      </span>
+    </label>
   );
 }

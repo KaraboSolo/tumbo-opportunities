@@ -12,6 +12,7 @@ import { Onboarding } from "./pages/Onboarding";
 import { Matching } from "./pages/Matching";
 import { Results } from "./pages/Results";
 import { Matches } from "./pages/Matches";
+import { Explore } from "./pages/Explore";
 import { Settings } from "./pages/Settings";
 import { Privacy } from "./pages/Privacy";
 import { Paused } from "./pages/Paused";
@@ -31,6 +32,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/matching" element={<RequireAuth><Matching /></RequireAuth>} />
             <Route path="/results" element={<RequireAuth><Results /></RequireAuth>} />
             <Route path="/matches" element={<RequireAuth><Matches /></RequireAuth>} />
+            <Route path="/explore" element={<RequireAuth><Explore /></RequireAuth>} />
             <Route path="/settings" element={<RequireAuth><Settings /></RequireAuth>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

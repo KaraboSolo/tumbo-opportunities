@@ -69,8 +69,8 @@ export function Onboarding() {
       <ol className="mb-6 flex gap-2" aria-label="Progress">
         {["Your CV", "Your profile", "What you want"].map((name, i) => (
           <li key={name} className="flex-1">
-            <div className={`h-1.5 rounded-full ${i + 1 <= step ? "bg-brand" : "bg-gray-200"}`} />
-            <span className={`mt-1 block text-xs ${i + 1 === step ? "font-semibold text-brand" : "text-gray-500"}`}>
+            <div className={`h-1.5 rounded-full ${i + 1 <= step ? "bg-brand" : "bg-black/[0.08]"}`} />
+            <span className={`mt-1 block text-xs ${i + 1 === step ? "font-semibold text-brand" : "text-ink-faint"}`}>
               {name}
             </span>
           </li>
@@ -159,7 +159,7 @@ function UploadStep({ userId, onParsed }: { userId: string; onParsed: (p: Parsed
     <form onSubmit={onSubmit} className="space-y-5">
       <PageTitle title="Upload your CV" subtitle="We'll read it and build your profile. You can fix anything we get wrong." />
       {mode === "file" ? (
-        <label className="block cursor-pointer rounded-xl border-2 border-dashed border-gray-300 p-6 text-center hover:border-brand">
+        <label className="block cursor-pointer rounded-3xl border-2 border-dashed border-black/15 bg-white/60 p-8 text-center transition hover:border-brand/40 hover:bg-white">
           <input
             type="file"
             accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -167,7 +167,7 @@ function UploadStep({ userId, onParsed }: { userId: string; onParsed: (p: Parsed
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           />
           <span className="block font-semibold text-brand">{file ? file.name : "Choose your CV"}</span>
-          <span className="mt-1 block text-sm text-gray-500">PDF or Word (.docx), up to 5 MB</span>
+          <span className="mt-1 block text-sm text-ink-faint">PDF or Word (.docx), up to 5 MB</span>
         </label>
       ) : (
         <div>
@@ -268,13 +268,13 @@ function ReviewStep({
           <span className="label">Education</span>
           <ul className="space-y-1.5">
             {profile.education.map((ed, i) => (
-              <li key={`${ed.qualification}-${i}`} className="flex items-start justify-between gap-2 rounded-lg bg-gray-50 px-3 py-2 text-sm">
+              <li key={`${ed.qualification}-${i}`} className="flex items-start justify-between gap-2 rounded-lg bg-black/[0.03] px-3 py-2 text-sm">
                 <span>
                   {ed.qualification}
-                  {ed.institution && <span className="text-gray-500"> · {ed.institution}</span>}
-                  {ed.year_completed && <span className="text-gray-500"> · {ed.year_completed}</span>}
+                  {ed.institution && <span className="text-ink-faint"> · {ed.institution}</span>}
+                  {ed.year_completed && <span className="text-ink-faint"> · {ed.year_completed}</span>}
                 </span>
-                <button type="button" className="text-gray-400 hover:text-gray-700" aria-label={`Remove ${ed.qualification}`}
+                <button type="button" className="text-ink-faint hover:text-ink-soft" aria-label={`Remove ${ed.qualification}`}
                   onClick={() => set("education", profile.education.filter((_, j) => j !== i))}>
                   ×
                 </button>
@@ -287,7 +287,7 @@ function ReviewStep({
         <label htmlFor="summary" className="label">Summary</label>
         <textarea id="summary" rows={5} className="input" value={profile.profile_text}
           onChange={(e) => set("profile_text", e.target.value)} />
-        <p className="mt-1 text-xs text-gray-500">We use this to find jobs like your experience.</p>
+        <p className="mt-1 text-xs text-ink-faint">We use this to find jobs like your experience.</p>
       </div>
       <div className="flex gap-3">
         <button type="button" className="btn-secondary" onClick={onBack}>Upload a different CV</button>
@@ -340,7 +340,7 @@ function PreferencesStep({
         hint="We've suggested some from your CV. Add or remove as you like." placeholder="e.g. Data Analyst" />
       <fieldset>
         <legend className="label">Provinces</legend>
-        <p className="-mt-0.5 mb-1.5 text-xs text-gray-500">Leave all unticked to search the whole country.</p>
+        <p className="-mt-0.5 mb-1.5 text-xs text-ink-faint">Leave all unticked to search the whole country.</p>
         <div className="grid grid-cols-2 gap-1.5">
           {PROVINCES.map((p) => (
             <label key={p} className="flex items-center gap-2 text-sm">
@@ -361,12 +361,12 @@ function PreferencesStep({
       <div>
         <label htmlFor="salary" className="label">Minimum monthly salary (ZAR, optional)</label>
         <div className="flex items-center gap-2">
-          <span className="text-gray-500">R</span>
+          <span className="text-ink-faint">R</span>
           <input id="salary" type="number" inputMode="numeric" min={0} step={500} className="input"
             value={prefs.min_salary_zar ?? ""}
             onChange={(e) => set("min_salary_zar", e.target.value ? Number(e.target.value) : null)} />
         </div>
-        <p className="mt-1 text-xs text-gray-500">Jobs that don't state a salary are still included.</p>
+        <p className="mt-1 text-xs text-ink-faint">Jobs that don't state a salary are still included.</p>
       </div>
       <fieldset>
         <legend className="label">Job types</legend>

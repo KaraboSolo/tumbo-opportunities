@@ -43,7 +43,7 @@ export function Login() {
   return (
     <div className="mx-auto max-w-md">
       <PageTitle title="Log in" />
-      <form onSubmit={onSubmit} className="space-y-4">
+      <form onSubmit={onSubmit} className="card space-y-4 sm:p-7">
         <div>
           <label htmlFor="email" className="label">Email</label>
           <input id="email" type="email" className="input" autoComplete="email" required value={email}
@@ -59,7 +59,7 @@ export function Login() {
         <button type="submit" className="btn-primary w-full" disabled={busy}>
           {busy ? "Logging in..." : "Log in"}
         </button>
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-ink-soft">
           New here? <Link to="/signup" className="text-brand underline">Create an account</Link>
         </p>
       </form>

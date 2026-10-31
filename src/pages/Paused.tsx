@@ -6,8 +6,8 @@ export function Paused() {
 
   return (
     <div className="mx-auto max-w-md py-12 text-center">
-      <h1 className="text-xl font-semibold">{invalid ? "That link didn't work" : "Notifications paused"}</h1>
-      <p className="mt-3 text-gray-600">
+      <h1 className="text-[28px] font-bold tracking-tight">{invalid ? "That link didn't work" : "Notifications paused"}</h1>
+      <p className="mt-3 text-ink-soft">
         {invalid
           ? "You can pause notifications from Settings instead."
           : "We won't send you any more job alerts. Your matches are still saved, and you can turn alerts back on in Settings."}

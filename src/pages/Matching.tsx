@@ -79,8 +79,8 @@ export function Matching() {
   if (failed) {
     return (
       <div className="mx-auto max-w-md py-12 text-center">
-        <h1 className="text-xl font-semibold">Finding your best matches</h1>
-        <p className="mt-4 text-gray-700">
+        <h1 className="text-[28px] font-bold tracking-tight">Finding your best matches</h1>
+        <p className="mt-4 text-ink-soft">
           Something went wrong on our side while finding your matches. Your profile is saved. Please try again in a
           moment.
         </p>
@@ -91,12 +91,12 @@ export function Matching() {
 
   return (
     <div className="mx-auto max-w-md py-12 text-center">
-      <div className="mx-auto mb-8 h-14 w-14 animate-spin rounded-full border-4 border-brand-light border-t-brand" aria-hidden="true" />
-      <h1 className="text-xl font-semibold">Finding your best matches</h1>
-      <p key={index} className="mt-4 min-h-[3rem] animate-[fadein_0.6s_ease] text-gray-700" aria-live="polite">
+      <div className="mx-auto mb-10 h-16 w-16 animate-spin rounded-full border-[3px] border-brand/10 border-t-brand" aria-hidden="true" />
+      <h1 className="text-[28px] font-bold tracking-tight">Finding your best matches</h1>
+      <p key={index} className="mt-4 min-h-[3.5rem] animate-[fadein_0.6s_ease] text-[17px] leading-relaxed text-ink-soft" aria-live="polite">
         {MESSAGES[index]}
       </p>
-      <p className="mt-8 text-xs text-gray-500">This usually takes under a minute. Please keep this page open.</p>
+      <p className="mt-8 text-xs text-ink-faint">This usually takes under a minute. Please keep this page open.</p>
       <style>{"@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}"}</style>
     </div>
   );

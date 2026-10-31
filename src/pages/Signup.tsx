@@ -62,7 +62,7 @@ export function Signup() {
   return (
     <div className="mx-auto max-w-md">
       <PageTitle title="Create your account" subtitle="It's free. You'll upload your CV next." />
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
+      <form onSubmit={onSubmit} className="card space-y-4 sm:p-7" noValidate>
         <div>
           <label htmlFor="name" className="label">Full name</label>
           <input id="name" className="input" autoComplete="name" required value={fullName}
@@ -77,24 +77,24 @@ export function Signup() {
           <label htmlFor="password" className="label">Password</label>
           <input id="password" type="password" className="input" autoComplete="new-password" minLength={8} required
             value={password} onChange={(e) => setPassword(e.target.value)} />
-          <p className="mt-1 text-xs text-gray-500">At least 8 characters.</p>
+          <p className="mt-1 text-xs text-ink-faint">At least 8 characters.</p>
         </div>
         <div>
           <label htmlFor="contact" className="label">Email for job alerts</label>
           <input id="contact" type="email" className="input" placeholder={email || "Same as above"} value={contactEmail}
             onChange={(e) => setContactEmail(e.target.value)} />
-          <p className="mt-1 text-xs text-gray-500">Leave empty to use your login email. We'll ask you to confirm it.</p>
+          <p className="mt-1 text-xs text-ink-faint">Leave empty to use your login email. We'll ask you to confirm it.</p>
         </div>
         <div>
-          <label htmlFor="whatsapp" className="label">WhatsApp number <span className="font-normal text-gray-500">(optional)</span></label>
+          <label htmlFor="whatsapp" className="label">WhatsApp number <span className="font-normal text-ink-faint">(optional)</span></label>
           <input id="whatsapp" type="tel" inputMode="tel" className="input" placeholder="+27 82 123 4567"
             autoComplete="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-ink-faint">
             Coming soon: a short WhatsApp message when a new job fits you, at most a few a day. We'll verify the
             number first, and you can stop any time.
           </p>
         </div>
-        <label className="flex items-start gap-2 text-sm text-gray-700">
+        <label className="flex items-start gap-2 text-sm text-ink-soft">
           <input type="checkbox" className="mt-0.5 h-4 w-4 accent-brand" checked={consent}
             onChange={(e) => setConsent(e.target.checked)} />
           <span>
@@ -107,7 +107,7 @@ export function Signup() {
         <button type="submit" className="btn-primary w-full" disabled={busy}>
           {busy ? "Creating your account..." : "Create account"}
         </button>
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-ink-soft">
           Already have an account? <Link to="/login" className="text-brand underline">Log in</Link>
         </p>
       </form>
